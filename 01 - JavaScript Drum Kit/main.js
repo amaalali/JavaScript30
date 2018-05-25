@@ -29,10 +29,9 @@
     return element;
   }
   
-  function _removePlayingClassFromElement() {
+  const _removePlayingClassFromElement = () => {
     this.classList.remove("keys__key--playing")
     this.removeEventListener('transitionend', _removePlayingClassFromElement)
-    return this;
   }
   
   const _playElement = (audioElement) => {
@@ -45,14 +44,11 @@
     const eventKeyCode = keyCode(e)
   
     getAudioElementForId(doc, eventKeyCode)
-      .map(audioElem => _playElement(audioElem))
+      .map(_playElement)
     
     getKeyElementForId(doc, eventKeyCode)
-      .map(keyElem =>_addPlayingClassToElement(keyElem))
-      .map(keyElem => {
-        keyElem.addEventListener('transitionend', _removePlayingClassFromElement)
-        return keyElem
-      })
+      .map(_addPlayingClassToElement)
+      .map(keyElem => keyElem.addEventListener('transitionend', _removePlayingClassFromElement))
   }
 
   _window.addEventListener('keydown', composedFns(document));
